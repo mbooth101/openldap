@@ -12,7 +12,6 @@ ldap_attributetype2bv
 ldap_attributetype2name
 ldap_attributetype2str
 ldap_attributetype_free
-ldapava_free
 ldap_bind
 ldap_bind_s
 ldap_build_search_req
@@ -33,6 +32,7 @@ ldap_charray_inlist
 ldap_charray_merge
 ldap_chase_referrals
 ldap_chase_v3referrals
+ldap_clear_select_write
 ldap_compare
 ldap_compare_ext
 ldap_compare_ext_s
@@ -74,6 +74,7 @@ ldap_delete_ext_s
 ldap_delete_result_entry
 ldap_delete_s
 ldap_derefresponse_free
+ldap_destroy
 ldap_dn2ad_canonical
 ldap_dn2bv
 ldap_dn2bv_x
@@ -349,6 +350,7 @@ ldap_result2error
 ldap_return_request
 ldap_sasl_bind
 ldap_sasl_bind_s
+ldap_sasl_interactive_bind
 ldap_sasl_interactive_bind_s
 ldap_scherr2str
 ldap_search
