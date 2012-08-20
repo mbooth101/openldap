@@ -1,0 +1,107 @@
+# Makefile.win for Win32 OpenLDAP
+#
+# Targets are:
+#
+#     buildall   - compile everything
+#     installall - compile and install everything
+#     clean      - mop up everything
+#
+# Define ARCH to your desired preference (your PATH must point
+# to the correct compiler tools!)  Choose only one;
+#
+#     ARCH="Win32 Release"
+#     ARCH="Win32 Debug"
+#     ARCH="x64 Release"
+#     ARCH="x64 Debug"
+#
+# For example;
+#
+#   nmake -f Makefile.win PREFIX=C:\openldap buildall installall clean
+#
+
+PREFIX=..\openldap-dist
+
+!IF [$(COMSPEC) /c cl /nologo /? \
+	| $(SystemRoot)\System32\find.exe "x64" >NUL ] == 0
+ARCH=x64 Release
+!ELSE
+ARCH=Win32 Release
+!ENDIF
+
+!MESSAGE ARCH        = $(ARCH)
+!MESSAGE PREFIX      = $(PREFIX)  (install path)
+
+
+# Utility and Translation things, nothing here for the user
+#
+!IF "$(ARCH)" == "Win32 Release"
+ARCHOSPATH=Release
+LIBSOSPATH=LibR
+!ELSEIF "$(ARCH)" == "Win32 Debug"
+ARCHOSPATH=Debug
+LIBSOSPATH=LibD
+!ELSEIF "$(ARCH)" == "x64 Release"
+ARCHOSPATH=x64\Release
+LIBSOSPATH=x64\LibR
+!ELSEIF "$(ARCH)" == "x64 Debug"
+ARCHOSPATH=x64\Debug
+LIBSOSPATH=x64\LibD
+!ENDIF
+
+!IFNDEF MAKEOPT
+# Only default the behavior if MAKEOPT= is omitted
+MAKEOPT=-nologo
+!ENDIF
+
+
+all: buildall
+
+clean:
+	$(MAKE) $(MAKEOPT) -f Makefile.win ARCH="$(ARCH)" \
+		CTARGET=CLEAN buildall
+
+buildall:
+	cd .\libraries\liblber
+	$(MAKE) $(MAKEOPT) -f lber.mak         CFG="lber - $(ARCH)" RECURSE=0 $(CTARGET)
+	$(MAKE) $(MAKEOPT) -f liblber.mak      CFG="liblber - $(ARCH)" RECURSE=0 $(CTARGET)
+	cd ..\..
+	cd .\libraries\libldap
+	$(MAKE) $(MAKEOPT) -f ldap.mak         CFG="ldap - $(ARCH)" RECURSE=0 $(CTARGET)
+	$(MAKE) $(MAKEOPT) -f libldap.mak      CFG="libldap - $(ARCH)" RECURSE=0 $(CTARGET)
+	cd ..\..
+	cd .\libraries\libldap_r
+	$(MAKE) $(MAKEOPT) -f ldap_r.mak         CFG="ldap_r - $(ARCH)" RECURSE=0 $(CTARGET)
+	$(MAKE) $(MAKEOPT) -f libldap_r.mak      CFG="libldap_r - $(ARCH)" RECURSE=0 $(CTARGET)
+	cd ..\..
+
+installall:
+	echo Y >.y
+	echo A >.A
+	@if NOT EXIST "$(PREFIX)\."         mkdir "$(PREFIX)"
+	@if NOT EXIST "$(PREFIX)\bin\."     mkdir "$(PREFIX)\bin"
+	@if NOT EXIST "$(PREFIX)\include\." mkdir "$(PREFIX)\include"
+	@if NOT EXIST "$(PREFIX)\lib\."     mkdir "$(PREFIX)\lib"
+	copy CHANGES   "$(PREFIX)\OPENLDAP-CHANGES.txt"   <.y
+	copy LICENSE   "$(PREFIX)\OPENLDAP-LICENSE.txt"   <.y
+	copy COPYRIGHT "$(PREFIX)\OPENLDAP-COPYRIGHT.txt" <.y
+	xcopy include\*.h "$(PREFIX)\include\" /d < .a
+	copy libraries\liblber\$(LIBSOSPATH)\lber.lib		"$(PREFIX)\lib\" <.y
+	copy libraries\liblber\$(LIBSOSPATH)\lber.pdb		"$(PREFIX)\lib\" <.y
+	copy libraries\liblber\$(ARCHOSPATH)\liblber.lib	"$(PREFIX)\lib\" <.y
+	copy libraries\liblber\$(ARCHOSPATH)\liblber.exp	"$(PREFIX)\lib\" <.y
+	copy libraries\liblber\$(ARCHOSPATH)\liblber.dll	"$(PREFIX)\bin\" <.y
+	copy libraries\liblber\$(ARCHOSPATH)\liblber.pdb	"$(PREFIX)\bin\" <.y
+	copy libraries\libldap\$(LIBSOSPATH)\ldap.lib		"$(PREFIX)\lib\" <.y
+	copy libraries\libldap\$(LIBSOSPATH)\ldap.pdb		"$(PREFIX)\lib\" <.y
+	copy libraries\libldap\$(ARCHOSPATH)\libldap.lib	"$(PREFIX)\lib\" <.y
+	copy libraries\libldap\$(ARCHOSPATH)\libldap.exp	"$(PREFIX)\lib\" <.y
+	copy libraries\libldap\$(ARCHOSPATH)\libldap.dll	"$(PREFIX)\bin\" <.y
+	copy libraries\libldap\$(ARCHOSPATH)\libldap.pdb	"$(PREFIX)\bin\" <.y
+	copy libraries\libldap_r\$(LIBSOSPATH)\ldap_r.lib	"$(PREFIX)\lib\" <.y
+	copy libraries\libldap_r\$(LIBSOSPATH)\ldap_r.pdb	"$(PREFIX)\lib\" <.y
+	copy libraries\libldap_r\$(ARCHOSPATH)\libldap_r.lib	"$(PREFIX)\lib\" <.y
+	copy libraries\libldap_r\$(ARCHOSPATH)\libldap_r.exp	"$(PREFIX)\lib\" <.y
+	copy libraries\libldap_r\$(ARCHOSPATH)\libldap_r.dll	"$(PREFIX)\bin\" <.y
+	copy libraries\libldap_r\$(ARCHOSPATH)\libldap_r.pdb	"$(PREFIX)\bin\" <.y
+	del .y
+	del .a
