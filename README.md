@@ -10,7 +10,7 @@ OpenLDAP cannot currently be built on Windows without applying patches, but I am
 
 http://people.apache.org/~mbooth/0001-Fix-build-error-syntax-error-missing-before-type-whe.patch
 
-Submitted upstream as ITS#7358.
+Submitted upstream as ITS#7358, commited for inclusion in 2.4.33.
 
 ##### Patches for Building 2.4.31
 
