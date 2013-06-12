@@ -22,4 +22,8 @@ Submitted upstream as ITS#7332, commited for inclusion in 2.4.32.
 
 The files in this repository should be placed into the OpenLDAP source tree and the build invoked by:
 
+    copy include\lber_types.nt include\lber_types.h
+    copy include\ldap_config.nt include\ldap_config.h
+    copy include\ldap_features.nt include\ldap_features.h
+    copy include\portable.nt include\portable.h
     nmake -f Makefile.win PREFIX=C:\openldap buildall installall
