@@ -32,6 +32,7 @@ OUTDIR=.\Release
 INTDIR=.\Release
 DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
+
 ALL : "$(OUTDIR)\liblber.dll" "$(DS_POSTBUILD_DEP)"
 
 
@@ -155,6 +156,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 OUTDIR=.\x64\Release
 INTDIR=.\x64\Release
 DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+LIBPATH= "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\kernel32.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\ws2_32.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\msvcrt.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\oldnames.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\vcruntime.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\ucrt\x64\ucrt.lib"
 
 ALL : "$(OUTDIR)\liblber.dll" "$(DS_POSTBUILD_DEP)"
 
@@ -181,11 +184,11 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\liblber_src" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" $(INCLUDEPATH) /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\liblber_src" /FD /c 
 RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\liblber.res" /I "./../../include" /d "NDEBUG"
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib ws2_32.lib /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\liblber.pdb" /debug /out:"$(OUTDIR)\liblber.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\liblber.lib" /MACHINE:X64 /opt:ref 
+LINK32_FLAGS= $(LIBPATH) /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\liblber.pdb" /debug /out:"$(OUTDIR)\liblber.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\liblber.lib" /MACHINE:X64 /opt:ref 
 LINK32_OBJS= \
 	"$(INTDIR)\assert.obj" \
 	"$(INTDIR)\bprint.obj" \
@@ -218,6 +221,8 @@ OUTDIR=.\x64\Debug
 INTDIR=.\x64\Debug
 DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+LIBPATH= "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\kernel32.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\ws2_32.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\msvcrtd.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\oldnames.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\vcruntimed.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\ucrt\x64\ucrtd.lib"
 ALL : "$(OUTDIR)\liblber.dll" "$(DS_POSTBUILD_DEP)"
 
 
@@ -243,11 +248,11 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\liblber_src" /FD /EHsc /c 
+CPP_PROJ=/nologo /MDd $(INCLUDEPATH) /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\liblber_src" /FD /EHsc /c 
 RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\liblber.res" /I "./../../include" /d "_DEBUG"
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib ws2_32.lib /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\liblber.pdb" /debug /out:"$(OUTDIR)\liblber.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\liblber.lib" /MACHINE:X64 
+LINK32_FLAGS=$(LIBPATH) /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\liblber.pdb" /debug /out:"$(OUTDIR)\liblber.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\liblber.lib" /MACHINE:X64 
 LINK32_OBJS= \
 	"$(INTDIR)\assert.obj" \
 	"$(INTDIR)\bprint.obj" \

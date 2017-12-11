@@ -334,6 +334,8 @@ LIB32_OBJS= \
 
 OUTDIR=.\x64\LibR
 INTDIR=.\x64\LibR
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+INCLUDESSLPATH= /I "C:\OpenSSL\include"
 
 ALL : "$(OUTDIR)\ldap.lib"
 
@@ -401,6 +403,7 @@ CLEAN :
 	-@erase "$(INTDIR)\deref.obj"
 	-@erase "$(INTDIR)\ldif.obj"
 	-@erase "$(INTDIR)\fetch.obj"
+	-@erase "$(INTDIR)\lbase64.obj"
 	-@erase "$(INTDIR)\ldap.idb"
 	-@erase "$(INTDIR)\ldap.pdb"
 	-@erase "$(OUTDIR)\ldap.lib"
@@ -409,7 +412,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap" /FD /c 
+CPP_PROJ=/nologo $(INCLUDEPATH) $(INCLUDESSLPATH) /MD /W3 /Zi /O2 /Oy- /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap" /FD /c 
 RSC=rc.exe
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\ldap.lib" 
@@ -475,6 +478,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\assertion.obj" \
 	"$(INTDIR)\deref.obj" \
 	"$(INTDIR)\ldif.obj" \
+	"$(INTDIR)\lbase64.obj" \
 	"$(INTDIR)\fetch.obj"
 
 "$(OUTDIR)\ldap.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -487,6 +491,9 @@ LIB32_OBJS= \
 OUTDIR=.\x64\LibD
 INTDIR=.\x64\LibD
 
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+INCLUDESSLPATH= /I "C:\OpenSSL\include"
+
 ALL : "$(OUTDIR)\ldap.lib"
 
 
@@ -553,6 +560,7 @@ CLEAN :
 	-@erase "$(INTDIR)\deref.obj"
 	-@erase "$(INTDIR)\ldif.obj"
 	-@erase "$(INTDIR)\fetch.obj"
+	-@erase "$(INTDIR)\lbase64.obj"
 	-@erase "$(INTDIR)\ldap.idb"
 	-@erase "$(INTDIR)\ldap.pdb"
 	-@erase "$(OUTDIR)\ldap.lib"
@@ -561,7 +569,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap" /FD /EHsc /c 
+CPP_PROJ=/nologo $(INCLUDEPATH) $(INCLUDESSLPATH) /MDd /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap" /FD /EHsc /c 
 RSC=rc.exe
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\ldap.lib" 
@@ -627,6 +635,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\assertion.obj" \
 	"$(INTDIR)\deref.obj" \
 	"$(INTDIR)\ldif.obj" \
+	"$(INTDIR)\lbase64.obj" \
 	"$(INTDIR)\fetch.obj"
 
 "$(OUTDIR)\ldap.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)

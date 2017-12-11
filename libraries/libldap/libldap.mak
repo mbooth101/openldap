@@ -363,6 +363,10 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 OUTDIR=.\x64\Release
 INTDIR=.\x64\Release
 DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+INCLUDESSLPATH= /I "C:\OpenSSL\include"
+LIBNEEDPATH= "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\kernel32.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\ws2_32.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\msvcrt.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\oldnames.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\vcruntime.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\ucrt\x64\ucrt.lib"
+LIBSSLPATH="C:\OpenSSL\lib\ssleay32.lib" "C:\OpenSSL\lib\libeay32.lib"
 
 ALL : "$(OUTDIR)\libldap.dll" "$(DS_POSTBUILD_DEP)"
 
@@ -430,6 +434,7 @@ CLEAN :
 	-@erase "$(INTDIR)\deref.obj"
 	-@erase "$(INTDIR)\ldif.obj"
 	-@erase "$(INTDIR)\fetch.obj"
+	-@erase "$(INTDIR)\lbase64.obj"
 	-@erase "$(INTDIR)\libldap_src.idb"
 	-@erase "$(INTDIR)\libldap_src.pdb"
 	-@erase "$(OUTDIR)\libldap.dll"
@@ -441,11 +446,11 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_LIBS_DYNAMIC" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\libldap_src" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" $(INCLUDEPATH) $(INCLUDESSLPATH) /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_LIBS_DYNAMIC" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\libldap_src" /FD /c 
 RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\libldap.res" /I "./../../include" /d "NDEBUG"
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib ws2_32.lib liblber.lib libeay32.lib ssleay32.lib /LIBPATH:"../liblber/$(OUTDIR)" /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\libldap.pdb" /debug /out:"$(OUTDIR)\libldap.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\libldap.lib" /MACHINE:X64 /opt:ref 
+LINK32_FLAGS=$(LIBNEEDPATH) liblber.lib $(LIBSSLPATH) /LIBPATH:"../liblber/$(OUTDIR)" /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\libldap.pdb" /debug /out:"$(OUTDIR)\libldap.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\libldap.lib" /MACHINE:X64 /opt:ref 
 LINK32_OBJS= \
 	"$(INTDIR)\bind.obj" \
 	"$(INTDIR)\open.obj" \
@@ -508,7 +513,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\assertion.obj" \
 	"$(INTDIR)\deref.obj" \
 	"$(INTDIR)\ldif.obj" \
-	"$(INTDIR)\fetch.obj"
+	"$(INTDIR)\fetch.obj" \
+	"$(INTDIR)\lbase64.obj"
 DEF_FILE=.\ldap.def
 
 "$(OUTDIR)\libldap.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -529,6 +535,10 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 OUTDIR=.\x64\Debug
 INTDIR=.\x64\Debug
 DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+INCLUDESSLPATH= /I "C:\OpenSSL\include"
+LIBNEEDPATH= "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\kernel32.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\ws2_32.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\msvcrtd.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\oldnames.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\vcruntimed.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\ucrt\x64\ucrtd.lib"
+LIBSSLPATH="C:\OpenSSL\lib\ssleay32.lib" "C:\OpenSSL\lib\libeay32.lib"
 
 ALL : "$(OUTDIR)\libldap.dll" "$(DS_POSTBUILD_DEP)"
 
@@ -596,6 +606,7 @@ CLEAN :
 	-@erase "$(INTDIR)\deref.obj"
 	-@erase "$(INTDIR)\ldif.obj"
 	-@erase "$(INTDIR)\fetch.obj"
+	-@erase "$(INTDIR)\lbase64.obj"
 	-@erase "$(INTDIR)\libldap_src.idb"
 	-@erase "$(INTDIR)\libldap_src.pdb"
 	-@erase "$(OUTDIR)\libldap.dll"
@@ -607,11 +618,11 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_LIBS_DYNAMIC" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\libldap_src" /FD /EHsc /c 
+CPP_PROJ=/nologo /MDd $(INCLUDEPATH) $(INCLUDESSLPATH) /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_LIBS_DYNAMIC" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\libldap_src" /FD /EHsc /c 
 RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\libldap.res" /I "./../../include" /d "_DEBUG"
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib ws2_32.lib liblber.lib libeay32.lib ssleay32.lib /LIBPATH:"../liblber/$(OUTDIR)" /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\libldap.pdb" /debug /out:"$(OUTDIR)\libldap.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\libldap.lib" /MACHINE:X64 
+LINK32_FLAGS=$(LIBNEEDPATH) $(LIBSSLPATH) liblber.lib /LIBPATH:"../liblber/$(OUTDIR)" /nologo /subsystem:console /dll /incremental:no /pdb:"$(OUTDIR)\libldap.pdb" /debug /out:"$(OUTDIR)\libldap.dll" /def:"$(DEF_FILE)" /implib:"$(OUTDIR)\libldap.lib" /MACHINE:X64 
 LINK32_OBJS= \
 	"$(INTDIR)\bind.obj" \
 	"$(INTDIR)\open.obj" \
@@ -674,7 +685,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\assertion.obj" \
 	"$(INTDIR)\deref.obj" \
 	"$(INTDIR)\ldif.obj" \
-	"$(INTDIR)\fetch.obj"
+	"$(INTDIR)\fetch.obj" \
+	"$(INTDIR)\lbase64.obj"
 DEF_FILE=.\ldap.def
 
 "$(OUTDIR)\libldap.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)

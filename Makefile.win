@@ -81,7 +81,6 @@ installall:
 	@if NOT EXIST "$(PREFIX)\bin\."     mkdir "$(PREFIX)\bin"
 	@if NOT EXIST "$(PREFIX)\include\." mkdir "$(PREFIX)\include"
 	@if NOT EXIST "$(PREFIX)\lib\."     mkdir "$(PREFIX)\lib"
-	copy CHANGES   "$(PREFIX)\OPENLDAP-CHANGES.txt"   <.y
 	copy LICENSE   "$(PREFIX)\OPENLDAP-LICENSE.txt"   <.y
 	copy COPYRIGHT "$(PREFIX)\OPENLDAP-COPYRIGHT.txt" <.y
 	xcopy include\*.h "$(PREFIX)\include\" /d < .a

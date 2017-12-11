@@ -127,8 +127,9 @@ LIB32_OBJS= \
 OUTDIR=.\x64\LibR
 INTDIR=.\x64\LibR
 
-ALL : "$(OUTDIR)\lber.lib"
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
 
+ALL : "$(OUTDIR)\lber.lib"
 
 CLEAN :
 	-@erase "$(INTDIR)\assert.obj"
@@ -149,7 +150,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\lber" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" $(INCLUDEPATH) /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\lber" /FD /c 
 RSC=rc.exe
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\lber.lib" 
@@ -175,6 +176,8 @@ LIB32_OBJS= \
 OUTDIR=.\x64\LibD
 INTDIR=.\x64\LibD
 
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+
 ALL : "$(OUTDIR)\lber.lib"
 
 
@@ -197,7 +200,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Zi /Od /I "./../../include" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\lber" /FD /EHsc /c 
+CPP_PROJ=/nologo /MDd /W3 /Zi /Od /I "./../../include" $(INCLUDEPATH) /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "_WINDOWS" /D "LBER_LIBRARY" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\lber" /FD /EHsc /c 
 RSC=rc.exe
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\lber.lib" 

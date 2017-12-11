@@ -126,7 +126,6 @@ ldap_int_connect_cbs
 ldap_int_error_init
 ldap_int_flush_request
 ldap_int_global_options	DATA
-ldap_int_gmtime_mutex	DATA
 ldap_int_hostname	DATA
 ldap_int_initialize
 ldap_int_initialize_global_options
@@ -147,7 +146,7 @@ ldap_int_thread_initialize
 ldap_int_thread_pool_shutdown
 ldap_int_thread_pool_startup
 ldap_int_timeval_dup
-ldap_int_tls_config
+ldap_dup
 ldap_int_tls_destroy
 ldap_int_tls_impl	DATA
 ldap_int_tls_start
