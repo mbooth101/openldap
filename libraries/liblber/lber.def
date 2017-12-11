@@ -85,6 +85,7 @@ ber_put_ostring
 ber_put_seq
 ber_put_set
 ber_put_string
+ber_pvt_wsa_err2string
 ber_pvt_err_file	DATA
 ber_pvt_log_output
 ber_pvt_log_print	DATA

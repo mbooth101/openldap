@@ -209,7 +209,6 @@ INTDIR=.\LibD
 
 ALL : "$(OUTDIR)\ldap_r.lib"
 
-
 CLEAN :
 	-@erase "$(INTDIR)\bind.obj"
 	-@erase "$(INTDIR)\open.obj"
@@ -383,6 +382,10 @@ LIB32_OBJS= \
 OUTDIR=.\x64\LibR
 INTDIR=.\x64\LibR
 
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+LIBPATH= "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\kernel32.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x64\ws2_32.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\msvcrt.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\oldnames.lib" "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\lib\x64\vcruntime.lib" "C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\ucrt\x64\ucrt.lib"
+INCLUDESSLPATH= /I "C:\OpenSSL\include"
+
 ALL : "$(OUTDIR)\ldap_r.lib"
 
 
@@ -464,12 +467,13 @@ CLEAN :
 	-@erase "$(INTDIR)\ldap_r.idb"
 	-@erase "$(INTDIR)\ldap_r.pdb"
 	-@erase "$(OUTDIR)\ldap_r.lib"
+	-@erase "$(INTDIR)\lbase64.obj"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" /I "./../libldap" /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_R_COMPILE" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap_r" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /Zi /O2 /Oy- /I "./../../include" /I "./../libldap" $(INCLUDEPATH) $(INCLUDESSLPATH) /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_R_COMPILE" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap_r" /FD /c 
 RSC=rc.exe
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\ldap_r.lib" 
@@ -547,7 +551,8 @@ LIB32_OBJS= \
 	"$(INTDIR)\thr_nt.obj" \
 	"$(INTDIR)\thr_pth.obj" \
 	"$(INTDIR)\thr_stub.obj" \
-	"$(INTDIR)\thr_debug.obj"
+	"$(INTDIR)\thr_debug.obj" \
+	"$(INTDIR)\lbase64.obj"
 
 "$(OUTDIR)\ldap_r.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -559,6 +564,9 @@ LIB32_OBJS= \
 OUTDIR=.\x64\LibD
 INTDIR=.\x64\LibD
 
+INCLUDEPATH= /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt" /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um" /I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared"
+INCLUDESSLPATH= /I "C:\OpenSSL\include"
+
 ALL : "$(OUTDIR)\ldap_r.lib"
 
 
@@ -637,6 +645,7 @@ CLEAN :
 	-@erase "$(INTDIR)\thr_pth.obj"
 	-@erase "$(INTDIR)\thr_stub.obj"
 	-@erase "$(INTDIR)\thr_debug.obj"
+	-@erase "$(INTDIR)\lbase64.obj"
 	-@erase "$(INTDIR)\ldap_r.idb"
 	-@erase "$(INTDIR)\ldap_r.pdb"
 	-@erase "$(OUTDIR)\ldap_r.lib"
@@ -645,7 +654,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Zi /Od /I "./../../include" /I "./../libldap" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_R_COMPILE" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap_r" /FD /EHsc /c 
+CPP_PROJ=/nologo $(INCLUDEPATH) $(INCLUDESSLPATH) /MDd /W3 /Zi /Od /I "./../../include" /I "./../libldap" /D "_CRT_SECURE_NO_WARNINGS" /D "_DEBUG" /D "LDAP_DEBUG" /D "_WIN32" /D "WIN32" /D "WINNT" /D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_R_COMPILE" /Fo"$(INTDIR)\\" /Fd"$(OUTDIR)\ldap_r" /FD /EHsc /c 
 RSC=rc.exe
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\ldap_r.lib" 
@@ -723,7 +732,8 @@ LIB32_OBJS= \
 	"$(INTDIR)\thr_nt.obj" \
 	"$(INTDIR)\thr_pth.obj" \
 	"$(INTDIR)\thr_stub.obj" \
-	"$(INTDIR)\thr_debug.obj"
+	"$(INTDIR)\thr_debug.obj" \
+	"$(INTDIR)\lbase64.obj" 
 
 "$(OUTDIR)\ldap_r.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -1374,4 +1384,12 @@ SOURCE=.\thr_stub.c
 SOURCE=.\thr_debug.c
 
 "$(INTDIR)\thr_debug.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+SOURCE=.\lbase64.c
+
+"$(SOURCE)" :
+	copy "..\libldap\$(SOURCE)" "$(SOURCE)"
+
+"$(INTDIR)\lbase64.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)

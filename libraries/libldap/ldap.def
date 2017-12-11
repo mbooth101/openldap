@@ -141,7 +141,7 @@ ldap_int_sasl_external
 ldap_int_sasl_init
 ldap_int_select
 ldap_int_timeval_dup
-ldap_int_tls_config
+ldap_dup
 ldap_int_tls_destroy
 ldap_int_tls_impl	DATA
 ldap_int_tls_start
